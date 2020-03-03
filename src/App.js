@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react'
+import './App.css'
 
-function App() {
+import Movies from './components/Movies/Movies'
+
+const App = () => {
+
+  const [movies, setMovies] = useState([{}])
+
+  const fetchRating = async () => {
+    const response = await fetch('http://localhost:3000/movies')
+    const data = await response.json()
+    console.log(data);
+    setMovies(data)
+  }
+
+  useEffect(() => {
+    fetchRating()
+  },[])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <h1>Movies!</h1>
+      <Movies movies={movies}/>
+    </>
+  )
 }
 
 export default App;
